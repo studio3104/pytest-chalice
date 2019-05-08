@@ -14,10 +14,6 @@ pytest-chalice
     :target: https://travis-ci.org/studio3104/pytest-chalice
     :alt: See Build Status on Travis CI
 
-.. image:: https://ci.appveyor.com/api/projects/status/github/studio3104/pytest-chalice?branch=master
-    :target: https://ci.appveyor.com/project/studio3104/pytest-chalice/branch/master
-    :alt: See Build Status on AppVeyor
-
 A set of py.test fixtures for AWS Chalice
 
 ----
