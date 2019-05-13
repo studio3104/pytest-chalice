@@ -16,6 +16,10 @@ class TestRequest:
         with pytest.raises(AttributeError, match=r' object has no attribute '):
             client.invalid_method('/')
 
+    def test_string_response_dont_have_json_attribute(self, client):
+        response = client.get('/string')
+        assert not hasattr(response, 'json')
+
 
 class TestCustomContext:
     def test_check_default_context(self, client):

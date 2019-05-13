@@ -20,4 +20,8 @@ def app():
         context = app.current_request.context
         return {'context': context}
 
+    @app.route('/string')
+    def string():
+        return 'Foo'
+
     yield app
