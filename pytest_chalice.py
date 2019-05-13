@@ -16,7 +16,7 @@ class InternalLocalGateway(LocalGateway):
 
     def _generate_lambda_event(self, *args, **kwargs):
         event = super(InternalLocalGateway, self)._generate_lambda_event(*args, **kwargs)
-        event['requestContext'] = dict(event['requestContext'], **self.custom_context)
+        event['requestContext'].update(self.custom_context)
         return event
 
 
@@ -43,11 +43,19 @@ class ResponseHandler:
             raise AttributeError("'{}' object has no attribute '{}'".format(self.__class__.__name__, key))
 
 
-class RequestHandler:
+class RequestHandler(object):
     METHODS = ('get', 'head', 'post', 'options', 'put', 'delete', 'trace', 'patch', 'link', 'unlink')
 
     def __init__(self, app):
         self.local_gateway = InternalLocalGateway(app, Config())
+
+    @property
+    def custom_context(self):
+        return self.local_gateway.custom_context
+
+    @custom_context.setter
+    def custom_context(self, context):
+        self.local_gateway.custom_context = context
 
     def __getattr__(self, method):
         if method not in self.METHODS:

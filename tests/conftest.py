@@ -15,4 +15,9 @@ def app():
     def index():
         return {'hello': 'world'}
 
+    @app.route('/context')
+    def context():
+        context = app.current_request.context
+        return {'context': context}
+
     yield app
