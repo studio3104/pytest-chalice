@@ -3,10 +3,17 @@
 import pytest
 
 import json
+from logging import getLogger
 import re
 
 from chalice.config import Config
 from chalice.local import LocalGateway
+
+
+logger = getLogger(__name__)
+
+# Python 3.4 or older don't have JSONDecodeError within json module
+JSONDecodeError = json.JSONDecodeError if hasattr(json, 'JSONDecodeError') else ValueError  # type: ignore
 
 
 class InternalLocalGateway(LocalGateway):
@@ -33,8 +40,8 @@ class ResponseHandler:
 
         try:
             self.values['json'] = json.loads(self.values['body'])
-        except json.JSONDecodeError:
-            pass
+        except JSONDecodeError:
+            logger.info('Response body is NOT JSON decodable: {}'.format(self.values['body']))
 
     def __getattr__(self, key):
         try:
