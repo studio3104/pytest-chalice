@@ -54,7 +54,7 @@ setup(
 
     entry_points={
         'pytest11': [
-            'chalice = pytest_chalice.fixtures',
+            'chalice = pytest_chalice.plugin',
         ],
     },
 )

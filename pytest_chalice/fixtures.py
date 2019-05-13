@@ -2,7 +2,7 @@
 
 import pytest
 
-from .plugins import RequestHandler
+from .handlers import RequestHandler
 
 
 @pytest.fixture
