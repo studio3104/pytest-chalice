@@ -38,7 +38,7 @@ class InternalLocalGateway(LocalGateway):
 UPPERCASE_PATTERN = re.compile('([A-Z])')
 
 
-class ResponseHandler:
+class ResponseHandler(object):
     def __init__(self, values):
         self.values = {}
 
