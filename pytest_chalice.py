@@ -21,6 +21,14 @@ class InternalLocalGateway(LocalGateway):
         self.custom_context = {}
         super(InternalLocalGateway, self).__init__(*args, **kwargs)
 
+    @property
+    def custom_context(self):
+        return self.__custom_context
+
+    @custom_context.setter
+    def custom_context(self, context):
+        self.__custom_context = context
+
     def _generate_lambda_event(self, *args, **kwargs):
         event = super(InternalLocalGateway, self)._generate_lambda_event(*args, **kwargs)
         event['requestContext'].update(self.custom_context)
