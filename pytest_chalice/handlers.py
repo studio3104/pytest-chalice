@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import pytest
-
 import json
 from logging import getLogger
 import re
@@ -88,8 +86,3 @@ class RequestHandler(object):
             return ResponseHandler(response)
 
         return request
-
-
-@pytest.fixture
-def client(app):
-    yield RequestHandler(app)
