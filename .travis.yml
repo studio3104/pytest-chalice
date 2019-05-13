@@ -1,9 +1,17 @@
 sudo: false
 dist: xenial
 language: python
-matrix:
+
+stages:
+- name: test
+  if: tag IS NOT present
+- name: release
+  if: tag IS present
+
+jobs:
   include:
-  - python: 2.7
+  - stage: test
+    python: 2.7
     env: TOX_ENV=py27
   - python: 3.4
     env: TOX_ENV=py34
@@ -17,19 +25,27 @@ matrix:
     env: TOX_ENV=pypy
   - python: 3.7
     env: TOX_ENV=flake8
+
+  - stage: release
+    install: skip
+    script: skip
+    deploy:
+      provider: pypi
+      user: studio3104
+      password:
+        secure: hpXlKx6Jv6v3I6eomLgzFsms23vxmWKeMuRFxOhCDnygPodDWpYSAj96w4CErq19vodAAKww427sBOlZbjwFOW5EVIVoyrKjIpjcXyI4F3VprgJtcIqliNmfrBan+KMDj7CftruVgGimW6yvCXymTNiA1kWxUS1zxGdEy0sUB9rrPngfiRaxXEiPoAgwuR+R2qxg3Xko2/60iM4cxsDsR+AdOrunTbMGdnKxKnP6xHQRonhLYHaQ1kXfZfgzoLB+IWqV6wlD+OFH6EnFYOMtfxeX3mycdZdb7UvLvljhnmnn/V+FthxgCg0IsgQejViePjgPoNfDLK41Qu+cJ6TfSf/IQzBMQ6cuBK2pQYi9E/XBPjCB6HpLXAcZYz/kemFkgcnhm/5VQDUPzVdiuaspz2DLmbf2LZHzCbrbKnObY2SKS5sWk02dA+P6QWkGMNAOwxLDtYpvmF8o/jwQ9wS/Vppuf7nZQT8fbu286I76UCyxV0KLnQpcJSb6H/eet9SZHVPKsEPQ8xk0bbH/cpiQIvsPGD5+arlXMMox6YvfBCs4QsMAsCKKqUaFNoh7BZ0Ah82Sn658XlvG9kYqhOALA30Yuhs/WUuHWgf4c0oDGCC2BiyIcLDXfb3199AHNU1wZtABi3tkYEXOmUdcep4m3HsaD3csC941Agvvf3Ujm4M=
+      on:
+        tags: true
+
 install:
 - pip install tox
+
 script:
 - tox -e $TOX_ENV
+
 before_cache:
 - rm -rf $HOME/.cache/pip/log
+
 cache:
   directories:
   - "$HOME/.cache/pip"
-deploy:
-  provider: pypi
-  user: studio3104
-  password:
-    secure: hpXlKx6Jv6v3I6eomLgzFsms23vxmWKeMuRFxOhCDnygPodDWpYSAj96w4CErq19vodAAKww427sBOlZbjwFOW5EVIVoyrKjIpjcXyI4F3VprgJtcIqliNmfrBan+KMDj7CftruVgGimW6yvCXymTNiA1kWxUS1zxGdEy0sUB9rrPngfiRaxXEiPoAgwuR+R2qxg3Xko2/60iM4cxsDsR+AdOrunTbMGdnKxKnP6xHQRonhLYHaQ1kXfZfgzoLB+IWqV6wlD+OFH6EnFYOMtfxeX3mycdZdb7UvLvljhnmnn/V+FthxgCg0IsgQejViePjgPoNfDLK41Qu+cJ6TfSf/IQzBMQ6cuBK2pQYi9E/XBPjCB6HpLXAcZYz/kemFkgcnhm/5VQDUPzVdiuaspz2DLmbf2LZHzCbrbKnObY2SKS5sWk02dA+P6QWkGMNAOwxLDtYpvmF8o/jwQ9wS/Vppuf7nZQT8fbu286I76UCyxV0KLnQpcJSb6H/eet9SZHVPKsEPQ8xk0bbH/cpiQIvsPGD5+arlXMMox6YvfBCs4QsMAsCKKqUaFNoh7BZ0Ah82Sn658XlvG9kYqhOALA30Yuhs/WUuHWgf4c0oDGCC2BiyIcLDXfb3199AHNU1wZtABi3tkYEXOmUdcep4m3HsaD3csC941Agvvf3Ujm4M=
-  on:
-    tags: true
