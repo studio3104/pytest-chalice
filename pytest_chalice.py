@@ -53,6 +53,13 @@ class RequestHandler(object):
     def custom_context(self):
         return self.local_gateway.custom_context
 
+    # As of Chalice version 1.8.0,
+    # LocalGateway object doesn't handle Cognito's context like as the warning message below shows,
+    #
+    # "UserWarning: CognitoUserPoolAuthorizer is not a supported in local mode.
+    # All requests made against a route will be authorized to allow local testing."
+    #
+    # Not only for this purpose, it's an interface provided to allow custom contexts in unit tests.
     @custom_context.setter
     def custom_context(self, context):
         self.local_gateway.custom_context = context
