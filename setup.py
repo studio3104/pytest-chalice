@@ -3,7 +3,7 @@
 
 import os
 import codecs
-from setuptools import setup
+from setuptools import find_packages, setup
 
 
 def read(fname):
@@ -13,21 +13,26 @@ def read(fname):
 
 setup(
     name='pytest-chalice',
-    version='0.0.1',
+    license='MIT',
+
     author='Satoshi SUZUKI',
     author_email='studio3104.com@gmail.com',
     maintainer='Satoshi SUZUKI',
     maintainer_email='studio3104.com@gmail.com',
-    license='MIT',
+
     url='https://github.com/studio3104/pytest-chalice',
     description='A set of py.test fixtures for AWS Chalice',
     long_description=read('README.rst'),
-    py_modules=['pytest_chalice'],
+    packages=find_packages(exclude=['docs', 'tests']),
     python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*',
     install_requires=[
         'chalice>=1.8.0',
         'pytest>=3.5.0',
     ],
+
+    setup_requires=['setuptools_scm'],
+    use_scm_version=True,
+
     classifiers=[
         'Development Status :: 4 - Beta',
         'Framework :: Pytest',
@@ -46,9 +51,10 @@ setup(
         'Operating System :: OS Independent',
         'License :: OSI Approved :: MIT License',
     ],
+
     entry_points={
         'pytest11': [
-            'chalice = pytest_chalice',
+            'chalice = pytest_chalice.fixtures',
         ],
     },
 )
