@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import pytest
+from pytest_chalice.handlers import RequestHandler
 
 
 class TestRequest:
@@ -13,16 +14,19 @@ class TestRequest:
         assert response.json == {'hello': 'world'}
 
     def test_invalid_method(self, client):
+        # type: (RequestHandler) -> None
         with pytest.raises(AttributeError, match=r' object has no attribute '):
             client.invalid_method('/')
 
     def test_string_response_dont_have_json_attribute(self, client):
+        # type: (RequestHandler) -> None
         response = client.get('/string')
         assert not hasattr(response, 'json')
 
 
 class TestCustomContext:
     def test_check_default_context(self, client):
+        # type: (RequestHandler) -> None
         response = client.get('/context')
         assert response.json == {
             'context': {
@@ -34,6 +38,7 @@ class TestCustomContext:
         }
 
     def test_custom_context(self, client):
+        # type: (RequestHandler) -> None
         client.custom_context = {
             'authorizer': {'claims': {}},
         }
