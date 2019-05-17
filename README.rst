@@ -18,19 +18,21 @@ A set of py.test fixtures for AWS Chalice
 
 ----
 
-This `pytest`_ plugin was generated with `Cookiecutter`_ along with `@hackebrot`_'s `cookiecutter-pytest-plugin`_ template.
-
-
 Features
---------
+------------
 
-* TODO
+- Launch the local gateway per test function
+- Provide an abstracted client fixture to access the local gateway
+- Expose an interface to overwrite response context with arbitrary objects
+    - As of Chalice version 1.8.0, `LocalGateway` object doesn't handle Cognito's context
+    - Not only for this purpose, it's an interface provided to allow custom contexts in unit tests
 
 
 Requirements
 ------------
 
-* TODO
+- `pytest`_
+- `Chalice`_
 
 
 Installation
@@ -44,7 +46,11 @@ You can install "pytest-chalice" via `pip`_ from `PyPI`_::
 Usage
 -----
 
-* TODO
+.. literalinclude:: examples/simple/app.py
+
+.. literalinclude:: examples/simple/tests/test_app.py
+
+See `examples <https://github.com/studio3104/pytest-chalice/tree/master/examples>`_ for more detailed
 
 Contributing
 ------------
@@ -62,7 +68,6 @@ Issues
 
 If you encounter any problems, please `file an issue`_ along with a detailed description.
 
-.. _`Cookiecutter`: https://github.com/audreyr/cookiecutter
 .. _`@hackebrot`: https://github.com/hackebrot
 .. _`MIT`: http://opensource.org/licenses/MIT
 .. _`BSD-3`: http://opensource.org/licenses/BSD-3-Clause
@@ -74,3 +79,4 @@ If you encounter any problems, please `file an issue`_ along with a detailed des
 .. _`tox`: https://tox.readthedocs.io/en/latest/
 .. _`pip`: https://pypi.org/project/pip/
 .. _`PyPI`: https://pypi.org/project
+.. _`Chalice`: https://github.com/aws/chalice
