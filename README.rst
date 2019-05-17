@@ -24,7 +24,7 @@ Features
 - Launch the local gateway per test function
 - Provide an abstracted client fixture to access the local gateway
 - Expose an interface to overwrite response context with arbitrary objects
-    - As of Chalice version 1.8.0, `LocalGateway` object doesn't handle Cognito's context
+    - As of Chalice version 1.8.0, LocalGateway object doesn't handle Cognito's context
     - Not only for this purpose, it's an interface provided to allow custom contexts in unit tests
 
 
@@ -46,9 +46,28 @@ You can install "pytest-chalice" via `pip`_ from `PyPI`_::
 Usage
 -----
 
-.. literalinclude:: examples/simple/app.py
+.. code-block:: python
 
-.. literalinclude:: examples/simple/tests/test_app.py
+    from chalice import Chalice
+
+    app = Chalice(__name__)
+
+
+    @app.route('/')
+    def index:
+        return {'hello': 'world'}
+
+
+.. code-block:: python
+
+    from http import HTTPStatus
+
+
+    def test_index(client):
+        response = client.get('/')
+        assert response.status_code == HTTPStatus.OK
+        assert response.json == {'hello': 'world'}
+
 
 See `examples <https://github.com/studio3104/pytest-chalice/tree/master/examples>`_ for more detailed
 
