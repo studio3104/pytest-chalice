@@ -45,6 +45,21 @@ You can install "pytest-chalice" via `pip`_ from `PyPI`_::
 
 Usage
 -----
+`pytest-chalice` expects a fixture called `app` which will be the chalice app instance from your project. You can create it in your `conftest.py`:
+
+.. code-block:: python
+
+    import pytest
+
+    from chalice import Chalice
+
+    from project.app import app as chalice_app
+
+
+    @pytest.fixture
+    def app() -> Chalice:
+        return chalice_app
+
 
 .. code-block:: python
 
